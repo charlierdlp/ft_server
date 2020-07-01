@@ -15,10 +15,15 @@ RUN rm /etc/nginx/sites-enabled/default
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -zxvf latest.tar.gz
 RUN mv wordpress /var/www/html/wordpress
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=SP/ST=Spain/L=Madrid/O=42/CN=127.0.0.1" -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt 
+
+RUN apt-get install -y openssl
 
 COPY srcs/nginx.config /etc/nginx/sites-enabled/default
 COPY srcs/wp.config /var/www/html/wordpress
 COPY srcs/default.sql /var/www/html/phpmyadmin
+COPY srcs/dunder.jpg /var/www/html/
+COPY srcs/index.html /var/www/html/
 
 CMD service nginx start && service mysql start && \
-	service php7.3-fpm start && mysql < /var/www/html/phpmyadmin/default.sql -u root && bash
+	service php7.3-fpm start && mysql < /var/www/html/phpmyadmin/default.sql -u root &&  bash
