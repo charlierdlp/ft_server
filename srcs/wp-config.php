@@ -1,6 +1,6 @@
 <?php
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'wordpresss' );
+define( 'DB_NAME', 'wordpress' );
 
 /** MySQL database username */
 define( 'DB_USER', 'charlie' );
