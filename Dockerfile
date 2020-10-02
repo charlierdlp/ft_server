@@ -24,9 +24,14 @@ RUN apt-get install -y openssl
 COPY srcs/nginx.config /etc/nginx/sites-enabled/default
 COPY srcs/wp-config.php /var/www/html/wordpress
 COPY srcs/wordpress.sql /var/www/html/wordpress
+COPY srcs/dundie.jpg  /var/www/html/wordpress/
+COPY srcs/ream.jpg  /var/www/html/wordpress/
 COPY srcs/default.sql /var/www/html/phpmyadmin
 COPY srcs/dunder.jpg /var/www/html/
 COPY srcs/index.html /var/www/html/
+COPY srcs/php.png /var/www/html/
+COPY srcs/wordpress.png /var/www/html/
+COPY srcs/office.mp3 /var/www/html/
 
 CMD service nginx start && service mysql start && \
 	service php7.3-fpm start && mysql < /var/www/html/phpmyadmin/default.sql -u root && mysql wordpress < /var/www/html/wordpress/wordpress.sql -u root && bash
