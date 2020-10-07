@@ -4,8 +4,9 @@ RUN apt-get update
 RUN apt-get install -y nginx
 RUN apt-get install -y vim
 RUN apt-get install -y mariadb-server mariadb-client
-RUN apt-get install -y php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline
+RUN apt-get install -y php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline php7.3-mbstring
 RUN apt-get install -y wget
+RUN apt-get install -y openssl
 
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-english.tar.gz
 RUN tar -zxf phpMyAdmin-4.9.0.1-english.tar.gz
@@ -16,10 +17,11 @@ RUN rm /etc/nginx/sites-enabled/default
 RUN wget https://wordpress.org/latest.tar.gz
 RUN tar -zxvf latest.tar.gz
 RUN mv wordpress /var/www/html/wordpress
-RUN chmod 777 -R /var/www/*
+
+RUN chmod 700 /etc/ssl/private
+RUN chmod 755 -R /var/www/*
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=SP/ST=Spain/L=Madrid/O=42/CN=127.0.0.1" -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt 
 
-RUN apt-get install -y openssl
 
 COPY srcs/nginx.config /etc/nginx/sites-enabled/default
 COPY srcs/wp-config.php /var/www/html/wordpress
